@@ -1,0 +1,21 @@
+body{
+    background: #181818
+}
+
+.first{
+    color: white;
+    background: #202020
+}
+.second{
+    color: white;
+        background: #2c2c2c;
+
+}
+
+.in-line{
+    display:inline-block;
+}
+
+.form-group>*{
+    display: inline-block;
+}
