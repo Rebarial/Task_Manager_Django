@@ -20,7 +20,6 @@ def index(request):
         else:
             date = datetime.datetime.strptime(date,'%Y-%m-%d')
         if (request.GET['action'] == 'Last'):
-            print(date.weekday())
             monday = (date -
                       datetime.timedelta(7-date.weekday()))
         if (request.GET['action'] == 'Next'):
