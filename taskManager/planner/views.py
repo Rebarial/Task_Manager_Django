@@ -1,17 +1,19 @@
 import datetime
 
+from django.contrib.auth import logout
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required, permission_required
-from .models import Task
-from django.contrib.auth.models import User
-from time import strptime
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 
+from . import api
+import requests
 
 @login_required
 def index(request):
-    tasks = Task.objects.all().filter(user = request.user).order_by('data','time')
+
+    responce = api.TaskViewSet
+
+    tasks = responce.get_tasks_for_user(request.user)
+
     weekday_name = ['Понедельник', 'Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье']
     if ('date' in request.GET):
         date = request.GET['date']
@@ -31,9 +33,9 @@ def index(request):
     else:
         monday = datetime.datetime.now() - datetime.timedelta(datetime.datetime.now().weekday())
         print(monday)
-    weekdata = []
+    weekdate = []
     for i in range(7):
-        weekdata.append((monday + datetime.timedelta(i)).date())
+        weekdate.append((monday + datetime.timedelta(i)).date())
 
-    weekday = list(zip(weekday_name, weekdata))
+    weekday = list(zip(weekday_name, weekdate))
     return render(request, 'planner/index.html', {'weekday': weekday, 'tasks': tasks, 'username': request.user})

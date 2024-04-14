@@ -19,7 +19,10 @@
         <button type="submit" class="btn btn-secondary w-25 mx-auto">Next</button>
     </form>
     {% if username %}
-    <a href="#" class="btn btn-warning float-end">{{ username }}</a>
+    <form action="/accounts/logout/" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-warning float-end">{{ username }}</button>
+        </form>
     {% endif %}
 </div>
 </div>
@@ -34,7 +37,7 @@
                 <h2> {{ day.0 }} </h2>
                 <h3>{{ day.1 }}</h3>
                     {% for el in tasks %}
-                        {% if el.data == day.1 %}
+                        {% if el.date == day.1 %}
                             <div class="col-fluid" style="background-color: #ff9919">
                                 <h4> {{ el.time }} </h4>
                                 <h5> {{ el.title }}</h5>

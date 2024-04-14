@@ -1,0 +1,36 @@
+{% extends 'main/layout.html' %}
+{% load static %}
+{% block title %}Main{% endblock %}
+{% block content %}
+<div class="container-fluid text-center">
+    <div class="text-center">
+        {% if username %}
+            <form action="/accounts/logout/" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning float-end">{{ username }}</button>
+            </form>
+        {% else %}
+            <form action="/planner" method="get" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning float-end">Login</button>
+            </form>
+        {% endif %}
+    </div>
+        <div class="text-center">
+            <div><time class="time" id="currentTime">Time</time></div>
+        </div>
+</div>
+<div class="container-fluid first">
+    Это тренеровочный проект django 5.0
+</div>
+
+<script>
+  var timeElement = document.getElementById('currentTime');
+  var currentTime = new Date();
+  timeElement.textContent = currentTime.getHours().toString().padStart(2, '0') + ":" + currentTime.getMinutes().toString().padStart(2, '0');
+  setInterval(function () {
+    var currentTime = new Date();
+    timeElement.textContent = currentTime.getHours().toString().padStart(2, '0') + ":" + currentTime.getMinutes().toString().padStart(2, '0');
+  }, 20000);
+</script>
+{% endblock %}

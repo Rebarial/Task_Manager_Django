@@ -1,0 +1,16 @@
+{% extends 'main/layout.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="position-absolute top-50 start-50 translate-middle first">
+<form method="post" class="form-reg">
+  <div>
+  {% csrf_token %}
+  {% for f in form %}
+    <p class="p-reg"><label for="{{ f.id_for_label }}" class="label-reg">{{ f.label }}: </label>{{ f }}</p>
+    <p>{{ f.errors }}</p>
+  {% endfor %}
+  <button type="submit">Register</button>
+    </div>
+</form>
+</div>
+{% endblock %}
