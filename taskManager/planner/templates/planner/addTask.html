@@ -1,0 +1,18 @@
+{% extends 'main/layout.html' %}
+{% block title %}Add Task{% endblock %}
+{% block content %}
+<div>
+    <h1>From add task</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.title }}<br>
+        {{ form.announce }}<br>
+        {{ form.date }}<br>
+        {{ form.time }}<br>
+        {{ form.description }}<br>
+        {{ error }}<br>
+        {{ form.error }}<br>
+        <button class="btn btn-success" type="submit">Add task</button>
+    </form>
+</div>
+{% endblock %}
