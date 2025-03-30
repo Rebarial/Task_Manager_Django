@@ -1,18 +1,30 @@
 {% extends 'main/layout.html' %}
 {% block title %}Add Task{% endblock %}
 {% block content %}
-<div>
-    <h1>From add task</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.title }}<br>
-        {{ form.announce }}<br>
-        {{ form.date }}<br>
-        {{ form.time }}<br>
-        {{ form.description }}<br>
-        {{ error }}<br>
-        {{ form.error }}<br>
-        <button class="btn btn-success" type="submit">Add task</button>
-    </form>
-</div>
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                    <div class="card-body p-5 text-center">
+
+                        <div class="mb-md-5 mt-md-4 pb-5">
+                            <h3 class="fw-bold mb-2">Создание события</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                {{ form.title }}<br>
+                                {{ form.announce }}<br>
+                                {{ form.date }}<br>
+                                {{ form.time }}<br>
+                                {{ form.description }}<br>
+                                {{ error }}<br>
+                                {{ form.error }}
+                                <button class="btn btn-success btn-lg px-5" type="submit">Создать</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
 {% endblock %}

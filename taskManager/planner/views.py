@@ -13,6 +13,7 @@ import requests
 @login_required
 def addTask(request):
     error = ''
+    form = TasksForm()
     if request.method == 'POST':
         form = TasksForm(request.POST)
         if form.is_valid():
@@ -22,11 +23,8 @@ def addTask(request):
                 new_submit.save()
                 return redirect('planner')
             except:
-                form.add_error(None, 'Форма была не верной')
-                error = 'Форма была не верной'
-
-
-    form = TasksForm()
+                error = f'Данные были введены не верно'
+                form.add_error(None, error)
 
     data = {
         'form': form,
@@ -44,7 +42,7 @@ def index(request):
     if ('date' in request.GET):
         date = request.GET['date']
         if date == '':
-            date = DateManager.getCurrentDate()
+            date = DateManager.getCurrentDateTime()
         else:
             date = DateManager.getDataFromStr(date)
 
@@ -57,6 +55,6 @@ def index(request):
         if (request.GET['action'] == 'Select'):
             weekday = DateManager.getWeekDates(date)
     else:
-        weekday = DateManager.getWeekDates(DateManager.getCurrentDate())
+        weekday = DateManager.getWeekDates(DateManager.getCurrentDateTime())
 
     return render(request, 'planner/index.html', {'weekday': weekday, 'tasks': tasks, 'username': request.user})
