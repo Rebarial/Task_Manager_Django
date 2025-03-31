@@ -29,7 +29,15 @@ class DateManager():
         return date_time + datetime.timedelta(7)
     
     @staticmethod
-    def getCurrentDate() -> datetime:
+    def getCurrentDateTime() -> datetime:
         return datetime.datetime.now()
+    
+    @staticmethod
+    def getCurrentTime() -> datetime:
+        return datetime.datetime.now().time()
+    
+    @staticmethod
+    def getCurrentDate() -> datetime:
+        return datetime.datetime.now().date()
 
     

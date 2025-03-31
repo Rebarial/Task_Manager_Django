@@ -1,45 +1,57 @@
 {% extends 'main/layout.html' %}
 {% block title %}Login{% endblock %}
 {% block content %}
-<div class="position-absolute top-50 start-50 translate-middle first">
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+            <form method="post" class="container-fluid" action="{% url 'login' %}">
+              {% csrf_token %}
+              <div class="mb-md-2">
 
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
-    {% endif %}
-  {% endif %}
+                <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                <p class="text-white-50 mb-5">Please enter your login and password!</p>
 
-  <form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  <table>
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input type="text" name="username" required id="id_username" class="form-control form-control-lg"
+                    placeholder="Логин" />
+                </div>
 
-  <tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-  </tr>
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                  <input type="password" name="password" required id="id_password" class="form-control form-control-lg"
+                    placeholder="Пароль" />
+                </div>
 
-  <tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-  </tr>
-  </table>
+                <p class="small mb-5 pb-lg-2"><a class="text-white-50 text-center"
+                    href="{% url 'password_reset' %}">Lost password?</a></p>
 
-  <input type="submit" value="login" />
-  <input type="hidden" name="next" value="{{ next }}" />
-  </form>
-  <form method="post" action="{% url 'register' %}">
-    {% csrf_token %}
-    <input type="submit" value="registration" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
-
-  {# Assumes you setup the password_reset view in your URLconf #}
-  <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-</div>
+                {% if form.non_field_errors %}
+                <br>
+                <ul class='form-errors'>
+                  {% for error in form.non_field_errors %}
+                  <li class="fw-bold mb-2">{{ error }}</li>
+                  {% endfor %}
+                {% else %}
+                <br>
+                {% endif %}
+                </ul>
+                
+                <input type="submit" class="btn btn-outline-light btn-lg px-5" value="Sign in" />
+                <input type="hidden" name="next" value="{{ next }}" />
+              </div>
+            </form>
+            <form method="post" class="container-fluid" action="{% url 'register' %}">
+              <div class="mb-md-5 text-center">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-outline-light btn-lg px-5" value="Sign Up" />
+                <input type="hidden" name="next" value="{{ next }}" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>
 {% endblock %}
