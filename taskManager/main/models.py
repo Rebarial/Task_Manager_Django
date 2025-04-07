@@ -7,3 +7,4 @@ class Profile(models.Model):
     desctiption = models.TextField()
     def __str__(self):
         return self.user
+    
