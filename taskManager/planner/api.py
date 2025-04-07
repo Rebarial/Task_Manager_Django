@@ -6,7 +6,7 @@ from .serializers import TaskSerialazer
 class TaskViewSet(viewsets.ModelViewSet):
     queryset = Task.objects
     serializer_class = TaskSerialazer
-    # permission_classes = (IsAuthenticatedOrReadOnly)
+    permission_classes = [IsAuthenticatedOrReadOnly]
     def get_queryset(self):
         user = self.request.user
         queryset = Task.objects.filter(user = user)

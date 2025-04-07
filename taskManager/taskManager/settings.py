@@ -115,7 +115,7 @@ USE_L10N = True
 USE_TZ = True
 LANGUAGES = (
     ('en-us', _('English')),
-    ('ru', _('German')),
+    ('ru', _('Russian')),
 )
 
 
