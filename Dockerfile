@@ -6,6 +6,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . code
 WORKDIR /code
 
+RUN python /code/taskManager/manage.py makemigrations && python /code/taskManager/manage.py migrate
+
 EXPOSE 8000
 
 ENTRYPOINT ["python", "taskManager/manage.py"]
