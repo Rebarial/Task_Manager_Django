@@ -1,0 +1,78 @@
+{% extends "main/layout.html" %}
+{% load i18n %}
+{% load allauth account %}
+{% block head_title %}
+    {% trans "Sign In" %}
+{% endblock head_title %}
+{% block content %}
+<section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem;">
+            <div class="card-body p-5 text-center">
+                <div class="mb-md-2">
+    {% element h1 %}
+        {% trans "Sign In" %}
+    {% endelement %}
+    {% if not SOCIALACCOUNT_ONLY %}
+        {% setvar link %}
+            <a href="{{ signup_url }}">
+            {% endsetvar %}
+            {% setvar end_link %}
+            </a>
+        {% endsetvar %}
+        <p class="text-white-50 mb-5">
+            {% blocktranslate %}If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.{% endblocktranslate %}
+        </p>
+        {% url 'account_login' as login_url %}
+        <br>
+        <form method="post" class="container-fluid" action="{{ login_url }}" tags="entrance,login">
+                {% csrf_token %}
+                <div data-mdb-input-init class="form-outline form-white mb-4">
+                    <input type="text" class="form-control form-control-lg" name="login" placeholder="{{ form.login.label }}" autocomplete="username" maxlength="150" required="" id="id_login" data-has-listeners="true">
+                <input type="password" class="form-control form-control-lg" name="password" placeholder="{{ form.password.label }}" autocomplete="current-password" required="" aria-describedby="id_password_helptext" id="id_password" data-has-listeners="true">
+                <p class="small mb-5 pb-lg-2">{{form.remember.label}}</p>  
+                    <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" name="remember" id="id_remember" data-has-listeners="true"> 
+                </div> 
+                <input class="btn btn-outline-light btn-lg px-5" type="submit" tags="prominent,login" value="{% trans "Sign In" %}" />
+                </div>
+                {{ redirect_field }}
+            </form>
+    {% endif %}
+    {% for error in form.non_field_errors %}
+    <span class="help-block">{{ error }}</span>
+    {% endfor %}
+    {% if LOGIN_BY_CODE_ENABLED or PASSKEY_LOGIN_ENABLED %}
+        {% element hr %}
+        {% endelement %}
+        {% element button_group vertical=True %}
+            {% if PASSKEY_LOGIN_ENABLED %}
+                {% element button type="submit" form="mfa_login" id="passkey_login" tags="prominent,login,outline,primary" %}
+                    {% trans "Sign in with a passkey" %}
+                {% endelement %}
+            {% endif %}
+            {% if LOGIN_BY_CODE_ENABLED %}
+                {% element button href=request_login_code_url tags="prominent,login,outline,primary" %}
+                    {% trans "Send me a sign-in code" %}
+                {% endelement %}
+            {% endif %}
+        {% endelement %}
+    {% endif %}
+    {% if SOCIALACCOUNT_ENABLED %}
+        {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+    {% endif %}
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+{% endblock content %}
+{% block extra_body %}
+    {{ block.super }}
+    {% if PASSKEY_LOGIN_ENABLED %}
+        {% include "mfa/webauthn/snippets/login_script.html" with button_id="passkey_login" %}
+    {% endif %}
+{% endblock %}

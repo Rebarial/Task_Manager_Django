@@ -1,0 +1,28 @@
+{% load allauth socialaccount %}
+{% load static %}
+{% get_providers as socialaccount_providers %}
+{% if socialaccount_providers %}
+        {% for provider in socialaccount_providers %}
+            {% if provider.id == "openid" %}
+                {% for brand in provider.get_brands %}
+                    {% provider_login_url provider openid=brand.openid_url process=process as href %}
+                    {% element provider name=brand.name provider_id=provider.id href=href %}
+                    {% endelement %}
+                {% endfor %}
+            {% endif %}
+            {% provider_login_url provider process=process scope=scope auth_params=auth_params as href %}
+            {% if provider.name == "Google" %}
+            <div class="col">
+            <a href="{{ href }}" name="{{ provider.name }}" class="google btn btn-outline-light">
+                <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="{% static 'main/img/icon/google.png' %}"/>
+                Login with Google
+            </a>
+            </div>
+            {% else %}
+            {% element provider name=provider.name provider_id=provider.id href=href %}
+            {% endelement %}
+            {% endif %}
+            
+      
+        {% endfor %}
+{% endif %}
