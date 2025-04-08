@@ -20,11 +20,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .register_views import register
 from . import register_views
+from debug_toolbar.toolbar import debug_toolbar_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('planner/', include('planner.urls')),
-    path('accounts/register', register_views.RegisterUser.as_view(), name='register'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    #path('accounts/login', register_views.MyLoginView.as_view(), name='login'),
+    #path('accounts/signup', register_views.MySignupView.as_view(), name='account_signup'),
+    #path('accounts/register', register_views.RegisterUser.as_view(), name='register'),
+    path('accounts/', include('allauth.urls')),
+    #path('accounts/', include('django.contrib.auth.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+if settings.DEBUG:
+    urlpatterns.extend(debug_toolbar_urls())
